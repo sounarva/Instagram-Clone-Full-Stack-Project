@@ -6,8 +6,14 @@ const postSchema = new mongoose.Schema({
         required: [true, "User Id is required"]
     },
     image: {
-        type: String,
-        required: [true, "Image is required"]
+        filePath: {
+            type: String,
+            required: [true, 'FilePath is required']
+        },
+        fileId: {
+            type: String,
+            required: [true, 'FileId is required']
+        }
     },
     caption: {
         type: String,
