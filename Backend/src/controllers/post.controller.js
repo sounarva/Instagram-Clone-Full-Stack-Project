@@ -1,6 +1,7 @@
-const ImageKit = require("@imagekit/nodejs");
-const { toFile } = require('@imagekit/nodejs');
+const ImageKit = require("@imagekit/nodejs")
+const { toFile } = require('@imagekit/nodejs')
 const postModel = require('../models/post.model')
+
 const imagekit = new ImageKit({
     publicKey: process.env.IMAGEKIT_PUBLIC_KEY,
     privateKey: process.env.IMAGEKIT_PRIVATE_KEY,
@@ -75,4 +76,31 @@ async function getPostDetailsController(req, res) {
     })
 }
 
-module.exports = { createPostController , getPostDetailsController }
+async function getParticularPostController(req , res){
+    const userId = req.userID
+    const postId = req.params.postID
+    const post = await postModel.findById(postId)
+
+    if(!post){
+        return res.status(404)
+        .json({
+            message:"Post doesn't exists"
+        })
+    }
+
+    const isValidUser = post.userId.toString() === userId
+    if(!isValidUser){
+        return res.status(403)
+        .json({
+            message:"Forbidden Content 🤨"
+        })
+    } 
+
+    return res.status(200)
+    .json({
+        message:"Fetched Successful ✅",
+        post
+    })
+}
+
+module.exports = { createPostController , getPostDetailsController , getParticularPostController }
