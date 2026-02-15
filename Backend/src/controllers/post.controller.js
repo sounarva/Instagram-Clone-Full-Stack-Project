@@ -58,4 +58,21 @@ async function createPostController(req, res) {
     }
 }
 
-module.exports = { createPostController }
+async function getPostDetailsController(req, res) {
+    const userId = req.userID
+    const posts = await postModel.find({ userId })
+    if (posts.length === 0) {
+        return res.status(200)
+            .json({
+                message: "User has not created any posts yet",
+                posts
+            })
+    }
+    return res.status(200)
+    .json({
+        message: "Posts fetched successfully ✅",
+        posts
+    })
+}
+
+module.exports = { createPostController , getPostDetailsController }
