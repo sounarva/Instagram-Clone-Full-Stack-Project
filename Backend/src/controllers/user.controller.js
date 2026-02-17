@@ -1,98 +1,165 @@
-const userModel = require("../models/user.model")
-const crypto = require("crypto")
-const jwt = require("jsonwebtoken")
+const followModel = require('../models/follow.model')
+const userModel = require('../models/user.model')
 
+async function followController(req, res) {
+    const follower = req.userName
+    const followee = req.params.username
 
-
-async function registerController(req, res) {
-    const { username, email, password } = req.body
-    if (!username || !email || !password) {
-        return res.status(400).json({ message: "All fields are required" })
-    }
-    const user = await userModel.findOne({
-        $or: [
-            {
-                username
-            },
-            {
-                email
-            }
-        ]
-    })
-    if (user) {
-        return res.status(400).json({ message: "User already exists" })
-    }
-    const hashedPassword = crypto.createHash("md5").update(password).digest("hex")
-    const newUser = await userModel.create({
-        username,
-        email,
-        password: hashedPassword
-    })
-
-    const token = jwt.sign({
-        id: newUser._id
-    }, process.env.JWT_SECRET, {
-        expiresIn: "1d"
-    })
-
-    res.cookie("token", token)
-    return res.status(201)
-        .json({
-            message: "User registered successfully",
-            userDetails: {
-                username: newUser.username,
-                email: newUser.email,
-                profilePic: newUser.profilePic,
-                bio: newUser.bio
-            }
-        })
-}
-
-async function loginController(req, res) {
-    const { username, email, password } = req.body
-    
-    if (!password) {
+    if (follower === followee) {
         return res.status(400).json({
-            message: "Password is required"
+            message: "You can't follow yourself"
         })
     }
-    const user = await userModel.findOne({
-        $or: [
-            {
-                username
-            },
-            {
-                email
-            }
-        ]
+
+    const isFolloweeExists = await userModel.findOne({
+        username: followee
     })
-    if (!user) {
-        return res.status(400).json({
+    if (!isFolloweeExists) {
+        return res.status(404).json({
             message: "User not found"
         })
     }
 
-    const hashedPassword = crypto.createHash("md5").update(password).digest("hex")
-    const isPasswordValid = user.password === hashedPassword
-    if (!isPasswordValid) {
-        return res.status(401).json({
-            message: "Invalid password"
+    const isFolloweeAlreadyFollowed = await followModel.findOne({
+        followee,
+        follower
+    })
+    if (isFolloweeAlreadyFollowed && isFolloweeAlreadyFollowed.status === "Accepted") {
+        return res.status(404).json({
+            message: "User already followed 🤨"
+        })
+    }
+    if (isFolloweeAlreadyFollowed && isFolloweeAlreadyFollowed.status === "Pending") {
+        return res.status(404).json({
+            message: "Follow request is already pending 🤨"
+        })
+    }
+    if (isFolloweeAlreadyFollowed && isFolloweeAlreadyFollowed.status === "Rejected") {
+        const follow = await followModel.findByIdAndUpdate(isFolloweeAlreadyFollowed._id, {
+            status: "Pending"
+        }, { new: true })
+        return res.status(200).json({
+            message: `${follower} follow request again sent to ${followee} successfully`,
+            followDets: follow
         })
     }
 
-    const token = jwt.sign({
-        id: user._id
-    }, process.env.JWT_SECRET, {
-        expiresIn: "1d"
+    const follow = await followModel.create({
+        followee,
+        follower
     })
-    res.cookie("token", token)
 
-    res.status(200).json({
-        message: "User logged in successfully✅"
+    return res.status(201).json({
+        message: `${follower} follow request sent to ${followee} successfully✅`,
+        followDets: follow
+    })
+}
+
+async function unfollowController(req, res) {
+    const followee = req.params.username
+    const follower = req.userName
+
+    if (follower === followee) {
+        return res.status(400)
+            .json({
+                message: "You cannot unfollow yourself"
+            })
+    }
+
+    const isFolloweeExists = await userModel.findOne({
+        username: followee
+    })
+    if (!isFolloweeExists) {
+        return res.status(404).json({
+            message: "User not found"
+        })
+    }
+
+    const isFollowing = await followModel.findOne({
+        followee,
+        follower,
+        status: "Accepted"
+    })
+
+    if (!isFollowing) {
+        return res.status(400)
+            .json({
+                message: "You're not following this user or follow request is pending or rejected 🤨"
+            })
+    }
+
+    const unfollowUser = await followModel.findByIdAndDelete(isFollowing._id, { new: true })
+    return res.status(200)
+        .json({
+            message: `${follower} unfollowed ${followee} successfully`,
+            unfollowDets: unfollowUser
+        })
+
+}
+
+async function acceptFollowRequestController(req, res) {
+    const follower = req.userName
+    const followee = req.params.username
+
+    if (follower === followee) {
+        return res.status(400)
+            .json({
+                message: "Bad Request"
+            })
+    }
+    const isFollowRequest = await followModel.findOne({
+        follower: followee,
+        followee: follower,
+        status: "Pending"
+    })
+    if (!isFollowRequest) {
+        return res.status(404).json({
+            message: "No follow request found or follow request is already accepted or rejected 🤨"
+        })
+    }
+
+    const acceptRequest = await followModel.findByIdAndUpdate(isFollowRequest._id, {
+        status: "Accepted"
+    }, { new: true })
+    return res.status(200).json({
+        message: `${follower} accepted ${followee}'s follow request successfully✅`,
+        followDets: acceptRequest
+    })
+}
+
+async function rejectFollowRequestController(req, res) {
+    const follower = req.userName
+    const followee = req.params.username
+
+    if (follower === followee) {
+        return res.status(400)
+            .json({
+                message: "Bad Request"
+            })
+    }
+    const isFollowRequest = await followModel.findOne({
+        follower: followee,
+        followee: follower,
+        status: "Pending"
+    })
+    if (!isFollowRequest) {
+        return res.status(404).json({
+            message: "No follow request found or follow request is already accepted or rejected 🤨"
+        })
+    }
+
+    const rejectRequest = await followModel.findByIdAndUpdate(isFollowRequest._id, {
+        status: "Rejected"
+    }, { new: true })
+    return res.status(200).json({
+        message: `${follower} rejected ${followee}'s follow request successfully ❌`,
+        followDets: rejectRequest
     })
 }
 
 module.exports = {
-    registerController,
-    loginController
+    followController,
+    unfollowController,
+    acceptFollowRequestController,
+    rejectFollowRequestController
 }
