@@ -10,10 +10,10 @@ router.post("/follow/:username", authMiddleware, followController)
 router.post("/unfollow/:username", authMiddleware, unfollowController)
 
 // POST /api/user/accept/:username
-router.post("/accept/:username" , authMiddleware , acceptFollowRequestController)
+router.patch("/accept/:username" , authMiddleware , acceptFollowRequestController)
 
 // POST /api/user/reject/:username
-router.post("/reject/:username" , authMiddleware , rejectFollowRequestController)
+router.patch("/reject/:username" , authMiddleware , rejectFollowRequestController)
 
 
 
