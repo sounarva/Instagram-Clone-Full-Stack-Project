@@ -10,6 +10,7 @@ const Register = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [showPopup, setShowPopup] = useState(false)
+    const [showPassword, setShowPassword] = useState(false)
 
     const successMessage = (content) => {
         toast.success(content, {
@@ -88,8 +89,8 @@ const Register = () => {
                             id="username"
                             value={userName}
                             placeholder='Enter your username'
-                            required 
-                            autoComplete='off'/>
+                            required
+                            autoComplete='off' />
 
                         <input
                             onInput={(e) => setEmail(e.target.value)}
@@ -98,18 +99,24 @@ const Register = () => {
                             id="email"
                             value={email}
                             placeholder='Enter your email'
-                            required 
-                            autoComplete='off'/>
+                            required
+                            autoComplete='off' />
 
-                        <input
-                            onInput={(e) => setPassword(e.target.value)}
-                            type="password"
-                            name="password"
-                            id="password"
-                            value={password}
-                            placeholder='Enter your password'
-                            required 
-                            autoComplete='off'/>
+
+                        <div className='password-wrapper'>
+                            <input
+                                onInput={(e) => setPassword(e.target.value)}
+                                type={showPassword ? 'text' : 'password'}
+                                name="password"
+                                id="password"
+                                value={password}
+                                placeholder='Enter your password'
+                                required
+                                autoComplete='off' />
+                            <p onClick={() => setShowPassword(!showPassword)}>
+                                <i className={showPassword ? "ri-eye-close-line" : "ri-eye-line"}></i>
+                            </p>
+                        </div>
 
                         <button type='submit'>Register</button>
                     </form>

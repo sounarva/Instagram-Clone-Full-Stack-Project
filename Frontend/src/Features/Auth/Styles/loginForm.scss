@@ -82,6 +82,37 @@
                     color: #fff;
                 }
 
+                .password-wrapper {
+                    position: relative;
+                    width: 100%;
+
+                    input {
+                        width: 100%;
+                        padding-right: 3rem;
+                    }
+
+                    p {
+                        position: absolute;
+                        top: 50%;
+                        right: 1rem;
+                        transform: translateY(-50%);
+                        margin: 0;
+                        padding: 0;
+                        width: auto;
+                        height: auto;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+
+                        i {
+                            font-size: 1.5rem;
+                            font-weight: 400;
+                            color: #777;
+                            cursor: pointer;
+                        }
+                    }
+                }
+
             }
 
             p {
