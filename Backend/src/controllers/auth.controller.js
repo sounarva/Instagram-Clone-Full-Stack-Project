@@ -39,7 +39,7 @@ async function registerController(req, res) {
     res.cookie("token", token)
     return res.status(201)
         .json({
-            message: "User registered successfully",
+            message: "User registered successfully ✅",
             userDetails: {
                 username: newUser.username,
                 email: newUser.email,
@@ -90,7 +90,7 @@ async function loginController(req, res) {
     res.cookie("token", token)
 
     res.status(200).json({
-        message: "User logged in successfully✅"
+        message: "User logged in successfully ✅"
     })
 }
 
