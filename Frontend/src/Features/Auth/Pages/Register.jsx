@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import '../Styles/registerForm.scss'
 import { Link } from 'react-router-dom'
 import { Bounce, toast } from 'react-toastify'
-import axios from 'axios'
 import RedirectPopup from '../../../components/RedirectPopup'
+import useAuth from '../Hooks/useAuth'
+import Loading from '../../../components/Loading'
 
 const Register = () => {
     const [userName, setUserName] = useState('')
@@ -11,16 +12,22 @@ const Register = () => {
     const [password, setPassword] = useState('')
     const [showPopup, setShowPopup] = useState(false)
     const [showPassword, setShowPassword] = useState(false)
+    const { register, loading } = useAuth()
+
+    if (loading) {
+        return <Loading />
+    }
 
     const successMessage = (content) => {
         toast.success(content, {
             position: "top-right",
-            autoClose: 500,
+            autoClose: 1000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
+            theme: "dark",
             transition: Bounce,
         })
     }
@@ -50,25 +57,17 @@ const Register = () => {
             return
         }
 
-        try {
-            const response = await axios.post('http://localhost:3200/api/v1/auth/register', {
-                username: userName,
-                email: email,
-                password: password
-            }, {
-                withCredentials: true
-            })
-            successMessage(response.data.message)
-
+        const response = await register(userName, email, password)
+        if (response.success) {
+            successMessage(response.message)
             const timer = setTimeout(() => {
                 setShowPopup(true)
-            }, 1400);
-
-            return () => clearTimeout(timer);
-
-        } catch (error) {
-            errorMessage(error.response.data.message)
+            }, 1700)
+            return () => clearTimeout(timer)
+        } else {
+            errorMessage(response.message)
         }
+
         setUserName('')
         setEmail('')
         setPassword('')

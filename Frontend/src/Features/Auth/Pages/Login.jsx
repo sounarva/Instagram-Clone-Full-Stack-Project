@@ -1,25 +1,33 @@
 import axios from 'axios'
 import '../Styles/loginForm.scss'
 import { Link } from 'react-router-dom'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Bounce, toast } from 'react-toastify'
 import RedirectPopup from '../../../components/RedirectPopup'
+import useAuth from '../Hooks/useAuth'
+import Loading from '../../../components/Loading'
 
 const Login = () => {
+  const { login, loading } = useAuth()
   const [showPopup, setShowPopup] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
 
+  if (loading) {
+    return <Loading />
+  }
+
   const successMessage = (content) => {
     toast.success(content, {
       position: "top-left",
-      autoClose: 500,
+      autoClose: 1000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
+      theme: "dark",
       transition: Bounce,
     })
   }
@@ -45,24 +53,17 @@ const Login = () => {
       return
     }
 
-    try {
-      const response = await axios.post('http://localhost:3200/api/v1/auth/login', {
-        email: email,
-        password: password
-      }, {
-        withCredentials: true
-      })
-      successMessage(response.data.message)
-
+    const response = await login(email, password)
+    if (response.success) {
+      successMessage(response.message)
       const timer = setTimeout(() => {
         setShowPopup(true)
-      }, 1400);
-
+      }, 1700);
       return () => clearTimeout(timer);
-
-    } catch (error) {
-      errorMessage(error.response.data.message)
+    } else {
+      errorMessage(response.message)
     }
+
     setEmail('')
     setPassword('')
   }
