@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema({
     },
     profilePic:{
         type:String,
-        default:"https://imgs.search.brave.com/XJPE2MO8_KCQWWenaWXLVmV0IdqDVKVaacdUOmVEI64/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9zdGF0/aWMudmVjdGVlenku/Y29tL3N5c3RlbS9y/ZXNvdXJjZXMvdGh1/bWJuYWlscy8wMjQv/OTgzLzkxNC9zbWFs/bC9zaW1wbGUtdXNl/ci1kZWZhdWx0LWlj/b24tZnJlZS1wbmcu/cG5n"
+        default:"https://imgs.search.brave.com/gM0DGt0wClo49xa3sWIKsCDME15MErrjPVArXfZ815U/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9zdGF0/aWMudmVjdGVlenku/Y29tL3N5c3RlbS9y/ZXNvdXJjZXMvdGh1/bWJuYWlscy8wMDkv/MzU0Lzg1Mi9zbWFs/bC9tYWxlLXBvcnRy/YWl0LXBlb3BsZS1w/cm9maWxlLXBlcmZl/Y3QtZm9yLXNvY2lh/bC1tZWRpYS1hbmQt/YnVzaW5lc3MtcHJl/c2VudGF0aW9ucy11/c2VyLWludGVyZmFj/ZS11eC1ncmFwaGlj/LWFuZC13ZWItZGVz/aWduLWFwcGxpY2F0/aW9ucy1hbmQtaW50/ZXJmYWNlcy1pbGx1/c3RyYXRpb24tdmVj/dG9yLmpwZw"
     }
 })
 
