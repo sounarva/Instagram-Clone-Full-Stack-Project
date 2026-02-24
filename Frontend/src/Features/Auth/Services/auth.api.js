@@ -29,3 +29,12 @@ export async function registerApi(username, email, password) {
         return error.response.data
     }
 }
+
+export async function getMeApi() {
+    try {
+        const response = await api.get('/get-me')
+        return response.data
+    } catch (error) {
+        return error.response.data
+    }
+}

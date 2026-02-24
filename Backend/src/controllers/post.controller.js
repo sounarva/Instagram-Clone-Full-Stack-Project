@@ -185,38 +185,46 @@ async function postUnlikeController(req, res) {
 }
 
 async function getFeedController(req, res) {
-    const userName = req.userName
-    const posts = await Promise.all((await postModel.find().populate("userId").select("-password").lean())
-        .map(async (post) => {
-            const isLiked = await likeModel.findOne({
-                postid: post._id,
-                likedBy: userName
-            })
+    try {
+        const userName = req.userName
+        const posts = await Promise.all((await postModel.find().populate("userId").select("-password").lean())
+            .map(async (post) => {
+                const isLiked = await likeModel.findOne({
+                    postid: post._id,
+                    likedBy: userName
+                })
 
-            const likeCount = await likeModel.find({
-                postid: post._id
-            }).countDocuments()
+                const likeCount = await likeModel.find({
+                    postid: post._id
+                }).countDocuments()
 
-            post.isLiked = !!isLiked
-            post.likeCount = likeCount
-            post.image.filePath = imagekit.helper.buildSrc({
-                urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT,
-                src: post.image.filePath,
-                transformation: [
-                    {
-                        quality: 90,
-                        format: 'webp',
-                    },
-                ],
-            });
-            return post
-        }))
+                post.isLiked = !!isLiked
+                post.likeCount = likeCount
+                post.image.filePath = imagekit.helper.buildSrc({
+                    urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT,
+                    src: post.image.filePath,
+                    transformation: [
+                        {
+                            quality: 90,
+                            format: 'webp',
+                        },
+                    ],
+                });
+                return post
+            }))
 
-    return res.status(200).json({
-        success: true,
-        message: "Posts fetched successfully ✅",
-        posts
-    })
+        return res.status(200).json({
+            success: true,
+            message: "Posts fetched successfully ✅",
+            posts
+        })
+    }
+    catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: "Internal server error"
+        })
+    }
 }
 
 module.exports = {

@@ -111,19 +111,33 @@ async function loginController(req, res) {
     })
 }
 
-async function getMeController(req , res){
-    const id = req.userID
-    const user = await userModel.findById(id)
-    return res.status(200).json({
-        success:true,
-        message:"User fetched successfully ✅",
-        user:{
-            username:user.username,
-            email:user.email,
-            profilePic:user.profilePic,
-            bio:user.bio
+async function getMeController(req, res) {
+    try {
+        const id = req.userID
+        if (!id) {
+            return res.status(400).json({
+                success: false,
+                message: "User not found"
+            })
         }
-    })
+        const user = await userModel.findById(id)
+        return res.status(200).json({
+            success: true,
+            message: "User fetched successfully ✅",
+            user: {
+                username: user.username,
+                email: user.email,
+                profilePic: user.profilePic,
+                bio: user.bio
+            }
+        })
+    }
+    catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: "Internal server error"
+        })
+    }
 }
 
 module.exports = {

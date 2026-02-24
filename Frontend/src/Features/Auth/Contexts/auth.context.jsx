@@ -1,11 +1,23 @@
-import { createContext, useState } from "react";
-import { loginApi, registerApi } from "../Services/auth.api";
+import { createContext, useEffect, useState } from "react";
+import { getMeApi, loginApi, registerApi } from "../Services/auth.api";
 
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState([])
     const [loading, setLoading] = useState(false)
+    const [isAuthReady, setIsAuthReady] = useState(false)
+
+    useEffect(() => {
+        const getMe = async () => {
+            const response = await getMeApi()
+            if (response.success) {
+                setUser(response.user)
+            }
+            setIsAuthReady(true)
+        }
+        getMe()
+    }, [])
 
     const login = async (email, password) => {
         try {
@@ -34,7 +46,7 @@ const AuthProvider = ({ children }) => {
     }
 
     return (
-        <AuthContext.Provider value={{ user, login, register, loading }}>
+        <AuthContext.Provider value={{ user, login, register, loading, isAuthReady }}>
             {children}
         </AuthContext.Provider>
     )
