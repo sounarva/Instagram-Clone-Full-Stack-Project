@@ -1,7 +1,10 @@
 import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { PostContext } from '../contexts/PostCtx';
 
 const Sidebar = () => {
     const navigate = useNavigate();
+    const { setIsCreatePostOpen } = useContext(PostContext);
 
     const menuItems = [
         {
@@ -51,7 +54,15 @@ const Sidebar = () => {
 
             <nav className="sidebar-nav">
                 {menuItems.map((item, index) => (
-                    <div key={index} className={`nav-item ${item.active ? 'active' : ''}`}>
+                    <div
+                        key={index}
+                        className={`nav-item ${item.active ? 'active' : ''}`}
+                        onClick={() => {
+                            if (item.label === 'Create') {
+                                setIsCreatePostOpen(true);
+                            }
+                        }}
+                    >
                         <div className="icon-wrapper">
                             {item.icon}
                             {item.dot && <span className="dot"></span>}

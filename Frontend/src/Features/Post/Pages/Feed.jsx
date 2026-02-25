@@ -6,11 +6,15 @@ import Loading from '../../../components/Loading'
 import Sidebar from '../Components/Sidebar'
 import useAuth from '../../Auth/Hooks/useAuth'
 import { useNavigate } from 'react-router-dom'
+import { useContext } from 'react'
+import { PostContext } from '../contexts/PostCtx'
+import CreatePost from './CreatePost'
 
 const Feed = () => {
     const navigate = useNavigate()
-    const { feed, getFeedPosts, loading } = usePost()
+    const { feed, getFeedPosts, loading, createPostHandler } = usePost()
     const { user, isAuthReady } = useAuth()
+    const { isCreatePostOpen, setIsCreatePostOpen } = useContext(PostContext)
 
     useEffect(() => {
         if (isAuthReady && user.length === 0) {
@@ -39,6 +43,11 @@ const Feed = () => {
                     />
                 ))}
             </div>
+            {isCreatePostOpen && <CreatePost
+                user={user}
+                createPostHandler={createPostHandler}
+                setIsCreatePostOpen={setIsCreatePostOpen}
+            />}
         </div>
     )
 }

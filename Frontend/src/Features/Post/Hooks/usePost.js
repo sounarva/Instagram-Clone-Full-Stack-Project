@@ -1,15 +1,32 @@
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import { PostContext } from "../contexts/PostCtx"
-import { getFeed , postLike , postUnlike } from "../Services/post.api"
+import { createPost, getFeed, postLike, postUnlike } from "../Services/post.api"
 
 export const usePost = () => {
-    const {loading , setLoading , posts , setPosts , feed , setFeed} = useContext(PostContext)
+    const { loading, setLoading, posts, setPosts, feed, setFeed } = useContext(PostContext)
+
+    // useEffect(() => {
+    //     getFeedPosts()
+    // }, [])
 
     const getFeedPosts = async () => {
         setLoading(true)
         try {
             const response = await getFeed()
-            setFeed(response.posts)
+            setFeed(response.posts.reverse())
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    const createPostHandler = async (imageFile, caption) => {
+        setLoading(true)
+        try {
+            await createPost(imageFile, caption)
+            const response = await getFeed()
+            setFeed(response.posts.reverse())
         } catch (error) {
             console.log(error)
         } finally {
@@ -19,9 +36,8 @@ export const usePost = () => {
 
     const postLikeHandler = async (postId) => {
         try {
-            await postLike(postId)
-            const response = await getFeed()
-            setFeed(response.posts)
+            const response = await postLike(postId)
+            setFeed(response.posts.reverse())
         } catch (error) {
             console.log(error)
         }
@@ -29,9 +45,8 @@ export const usePost = () => {
 
     const postUnlikeHandler = async (postId) => {
         try {
-            await postUnlike(postId)
-            const response = await getFeed()
-            setFeed(response.posts)
+            const response = await postUnlike(postId)
+            setFeed(response.posts.reverse())
         } catch (error) {
             console.log(error)
         }
@@ -41,6 +56,7 @@ export const usePost = () => {
         loading,
         feed,
         getFeedPosts,
+        createPostHandler,
         postLikeHandler,
         postUnlikeHandler
     }
