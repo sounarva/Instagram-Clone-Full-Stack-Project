@@ -60,6 +60,47 @@ async function createPostController(req, res) {
     }
 }
 
+async function deletePostController(req, res) {
+    try {
+        const userId = req.userID
+        const postId = req.params.postID
+
+        const post = await postModel.findById(postId)
+        if (!post) {
+            return res.status(404)
+                .json({
+                    success: false,
+                    message: "Post doesn't exists"
+                })
+        }
+
+        const isValidUser = post.userId.toString() === userId
+        if (!isValidUser) {
+            return res.status(403)
+                .json({
+                    success: false,
+                    message: "Forbidden Content 🤨"
+                })
+        }
+
+        await imagekit.files.delete(post.image.fileId)
+        await postModel.findByIdAndDelete(postId)
+        await likeModel.deleteMany({ postid: postId })
+
+        return res.status(200)
+            .json({
+                success: true,
+                message: "Post deleted successfully ✅"
+            })
+    } catch (error) {
+        return res.status(500)
+            .json({
+                success: false,
+                message: error.message
+            })
+    }
+}
+
 async function getPostDetailsController(req, res) {
     const userId = req.userID
     const posts = await postModel.find({ userId })
@@ -229,6 +270,7 @@ async function getFeedController(req, res) {
 
 module.exports = {
     createPostController,
+    deletePostController,
     getPostDetailsController,
     getParticularPostController,
     postLikeController,

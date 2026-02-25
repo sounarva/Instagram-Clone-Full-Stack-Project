@@ -1,7 +1,56 @@
-import { usePost } from '../Hooks/usePost';
+import { useState } from 'react';
+import { Bounce, toast } from 'react-toastify';
 
-const PostCard = ({ post, user }) => {
-    const { postLikeHandler, postUnlikeHandler } = usePost()
+const PostCard = ({ post, user, postLikeHandler, postUnlikeHandler, deletePostHandler }) => {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const toggleMenu = () => {
+        setIsMenuOpen(!isMenuOpen);
+    }
+
+    const deleteBtnHandler = async (postId) => {
+        const response = await deletePostHandler(postId) || null
+        setIsMenuOpen(false)
+        if (response?.success) {
+            toast.success("Post deleted successfully ✅", {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
+            });
+        } else {
+            toast.error("Failed to delete post", {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
+            });
+        }
+    }
+
+    // if (error) {
+    //     toast.error(error.message, {
+    //         position: "top-left",
+    //         autoClose: 2000,
+    //         hideProgressBar: false,
+    //         closeOnClick: false,
+    //         pauseOnHover: true,
+    //         draggable: true,
+    //         progress: undefined,
+    //         theme: "dark",
+    //         transition: Bounce,
+    //     });
+    // }
+
     return (
         <div className="post-card">
             {/* Header section */}
@@ -15,13 +64,28 @@ const PostCard = ({ post, user }) => {
                     <span className="username">{user.username}</span>
                     <span className="time-ago">• 12h</span>
                 </div>
-                <div className="menu-icon">
+                <div className="menu-icon" onClick={toggleMenu}>
                     <svg aria-label="More options" color="currentColor" fill="currentColor" height="24" role="img" viewBox="0 0 24 24" width="24">
                         <circle cx="12" cy="12" r="1.5"></circle>
                         <circle cx="6" cy="12" r="1.5"></circle>
                         <circle cx="18" cy="12" r="1.5"></circle>
                     </svg>
                 </div>
+
+                {/* Post Options Menu Dialog */}
+                {isMenuOpen && (
+                    <>
+                        <div className="post-menu-overlay" onClick={toggleMenu}></div>
+                        <div className="post-menu-dialog">
+                            <button className="delete-btn" onClick={() => deleteBtnHandler(post._id)}>
+                                Delete
+                            </button>
+                            <button className="cancel-btn" onClick={() => setIsMenuOpen(false)}>
+                                Cancel
+                            </button>
+                        </div>
+                    </>
+                )}
             </div>
 
             {/* Post Image section */}

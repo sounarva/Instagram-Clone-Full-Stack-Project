@@ -12,7 +12,7 @@ import CreatePost from './CreatePost'
 
 const Feed = () => {
     const navigate = useNavigate()
-    const { feed, getFeedPosts, loading, createPostHandler } = usePost()
+    const { feed, getFeedPosts, loading, createPostHandler, postLikeHandler, postUnlikeHandler, deletePostHandler } = usePost()
     const { user, isAuthReady } = useAuth()
     const { isCreatePostOpen, setIsCreatePostOpen } = useContext(PostContext)
 
@@ -40,6 +40,9 @@ const Feed = () => {
                         key={post._id}
                         post={post}
                         user={post.userId}
+                        postLikeHandler={postLikeHandler}
+                        postUnlikeHandler={postUnlikeHandler}
+                        deletePostHandler={deletePostHandler}
                     />
                 ))}
             </div>

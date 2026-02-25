@@ -46,3 +46,9 @@ export const createPost = async (imageFile, caption) => {
         console.log(error)
     }
 }
+
+export const deletePost = async (postId) => {
+    await api.delete(`/api/posts/delete/${postId}`)
+    const response = await getFeed()
+    return response
+}
