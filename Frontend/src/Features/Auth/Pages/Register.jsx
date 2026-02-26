@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react'
 import '../Styles/registerForm.scss'
 import { Link } from 'react-router-dom'
 import { Bounce, toast } from 'react-toastify'
-import RedirectPopup from '../../../components/RedirectPopup'
+import RedirectPopup from '../../../Shared/RedirectPopup'
 import useAuth from '../Hooks/useAuth'
-import Loading from '../../../components/Loading'
+import Loading from '../../../Shared/Loading'
 
 const Register = () => {
     const [userName, setUserName] = useState('')

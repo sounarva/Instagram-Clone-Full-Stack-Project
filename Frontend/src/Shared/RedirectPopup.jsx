@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../components/popup.scss";
+import "./popup.scss";
 
 const RedirectPopup = ({ page }) => {
   const [seconds, setSeconds] = useState(5);

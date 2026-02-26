@@ -5,7 +5,7 @@ import { PostContext } from '../../Post/contexts/PostCtx'
 import { usePost } from '../../Post/Hooks/usePost'
 import useAuth from '../../Auth/Hooks/useAuth'
 import CreatePost from '../../Post/Pages/CreatePost'
-import LogoutBtn from './LogoutBtn'
+import LogoutBtn from '../Components/LogoutBtn'
 
 const Profile = () => {
     const { isCreatePostOpen, setIsCreatePostOpen } = useContext(PostContext)

@@ -42,7 +42,7 @@ const LogoutBtn = () => {
             transition: Bounce,
         })
     }
-    
+
     return (
         <div className='logOutBtn'>
             <button onClick={logOutHandler}>

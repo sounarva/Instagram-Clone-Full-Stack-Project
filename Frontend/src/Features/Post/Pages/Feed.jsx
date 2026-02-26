@@ -2,14 +2,14 @@ import { useEffect } from 'react'
 import PostCard from '../Components/PostCard'
 import { usePost } from '../Hooks/usePost'
 import '../Styles/feed.scss'
-import Loading from '../../../components/Loading'
+import Loading from '../../../Shared/Loading'
 import Sidebar from '../Components/Sidebar'
 import useAuth from '../../Auth/Hooks/useAuth'
 import { useNavigate } from 'react-router-dom'
 import { useContext } from 'react'
 import { PostContext } from '../contexts/PostCtx'
 import CreatePost from './CreatePost'
-import LogoutBtn from '../../Auth/Pages/LogoutBtn'
+import LogoutBtn from '../../Auth/Components/LogoutBtn'
 
 const Feed = () => {
     const navigate = useNavigate()

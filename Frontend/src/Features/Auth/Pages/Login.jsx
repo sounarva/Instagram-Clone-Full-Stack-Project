@@ -3,9 +3,9 @@ import '../Styles/loginForm.scss'
 import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { Bounce, toast } from 'react-toastify'
-import RedirectPopup from '../../../components/RedirectPopup'
+import RedirectPopup from '../../../Shared/RedirectPopup'
 import useAuth from '../Hooks/useAuth'
-import Loading from '../../../components/Loading'
+import Loading from '../../../Shared/Loading'
 
 const Login = () => {
   const { login, loading } = useAuth()
