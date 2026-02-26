@@ -13,7 +13,7 @@ app.use("/api/v1/auth", authRouter)
 app.use("/", postRouter)
 app.use("/api/user", userRouter)
 
-app.use("*", (req, res) => {
+app.use("*name", (req, res) => {
     res.sendFile(path.join(__dirname, "../public/index.html"))
 })
 
