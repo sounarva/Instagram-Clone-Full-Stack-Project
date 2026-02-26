@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema({
     },
     bio:{
         type:String,
-        default:"Hello Guys I am using Insta-Clone 😋😎"
+        default:"Building the future with AI and code. 🚀 | React & Node.js Developer | Tech Enthusiast"
     },
     profilePic:{
         type:String,

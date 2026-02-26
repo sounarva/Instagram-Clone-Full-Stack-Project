@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom'
 import { useContext } from 'react'
 import { PostContext } from '../contexts/PostCtx'
 import CreatePost from './CreatePost'
+import LogoutBtn from '../../Auth/Pages/LogoutBtn'
 
 const Feed = () => {
     const navigate = useNavigate()
@@ -33,6 +34,7 @@ const Feed = () => {
 
     return (
         <div className="feed-page">
+            <LogoutBtn />
             <Sidebar />
             <div className="feed-container">
                 {feed.map((post) => (

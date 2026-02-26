@@ -1,0 +1,115 @@
+main {
+    width: 100%;
+    min-height: 100vh;
+    background-color: #000;
+    color: #fff;
+    display: flex;
+    font-family: 'Poppins', sans-serif;
+
+    .profile-container {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        overflow-y: auto;
+
+        .profile-section {
+            width: 100%;
+            max-width: 935px;
+            padding: 30px 20px;
+
+            .profile-header {
+                display: flex;
+                align-items: center;
+                gap: 50px;
+                margin-bottom: 44px;
+                padding-bottom: 20px;
+
+                @media (max-width: 768px) {
+                    gap: 30px;
+                    margin-bottom: 24px;
+                }
+
+                .profile-pic {
+                    width: 150px;
+                    height: 150px;
+                    border-radius: 50%;
+                    overflow: hidden;
+                    border: 4px solid transparent;
+                    background: conic-gradient(from 45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888, #f09433) border-box;
+
+                    @media (max-width: 768px) {
+                        width: 77px;
+                        height: 77px;
+                    }
+
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                    }
+                }
+
+                .profile-info {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 12px;
+
+                    .username {
+                        font-size: 28px;
+                        font-weight: 400;
+                        text-transform: capitalize;
+                        letter-spacing: 1px;
+                        margin: 0;
+                        color: #fff;
+                    }
+
+                    .bio {
+                        background-color: #47464658;
+                        backdrop-filter: blur(10px);
+                        font-size: 14px;
+                        line-height: 20px;
+                        margin: 0;
+                        color: #f5f5f5;
+                        padding: 0.8rem;
+                        border-radius: 0.5rem;
+                        max-width: 600px;
+                    }
+                }
+            }
+
+            .profile-gallery {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 28px;
+                border-top: 1px solid #262626;
+                padding-top: 50px;
+
+                @media (max-width: 768px) {
+                    gap: 3px;
+                    padding-top: 20px;
+                }
+
+                .gallery-item {
+                    aspect-ratio: 1 / 1;
+                    overflow: hidden;
+                    cursor: pointer;
+                    position: relative;
+                    border-radius: 0.2rem;
+
+                    &:hover {
+                        img {
+                            filter: brightness(0.8);
+                        }
+                    }
+
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        transition: filter 0.2s ease;
+                    }
+                }
+            }
+        }
+    }
+}

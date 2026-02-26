@@ -103,7 +103,20 @@ async function deletePostController(req, res) {
 
 async function getPostDetailsController(req, res) {
     const userId = req.userID
-    const posts = await postModel.find({ userId })
+    const posts = await Promise.all((await postModel.find({ userId }).lean()).map(async (post) => {
+        post.image.filePath = imagekit.helper.buildSrc({
+            urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT,
+            src: post.image.filePath,
+            transformation: [
+                {
+                    quality: 90,
+                    format: 'webp',
+                },
+            ],
+        })
+        return post
+    }))
+
     if (posts.length === 0) {
         return res.status(200)
             .json({
@@ -113,6 +126,7 @@ async function getPostDetailsController(req, res) {
     }
     return res.status(200)
         .json({
+            success: true,
             message: "Posts fetched successfully ✅",
             posts
         })

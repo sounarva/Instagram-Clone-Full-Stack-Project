@@ -30,6 +30,15 @@ export async function registerApi(username, email, password) {
     }
 }
 
+export async function logoutApi() {
+    try {
+        const response = await api.post('/logout')
+        return response.data
+    } catch (error) {
+        return error.response.data
+    }
+}
+
 export async function getMeApi() {
     try {
         const response = await api.get('/get-me')

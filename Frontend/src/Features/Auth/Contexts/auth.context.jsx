@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import { getMeApi, loginApi, registerApi } from "../Services/auth.api";
+import { getMeApi, loginApi, logoutApi, registerApi } from "../Services/auth.api";
 
 export const AuthContext = createContext();
 
@@ -45,8 +45,21 @@ const AuthProvider = ({ children }) => {
         }
     }
 
+    const logout = async () => {
+        try {
+            setLoading(true)
+            const response = await logoutApi()
+            setUser([])
+            return response
+        } catch (error) {
+            return error
+        } finally {
+            setLoading(false)
+        }
+    }
+
     return (
-        <AuthContext.Provider value={{ user, login, register, loading, isAuthReady }}>
+        <AuthContext.Provider value={{ user, login, register, loading, isAuthReady, logout }}>
             {children}
         </AuthContext.Provider>
     )

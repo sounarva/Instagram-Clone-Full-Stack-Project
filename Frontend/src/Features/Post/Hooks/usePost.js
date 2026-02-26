@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react"
 import { PostContext } from "../contexts/PostCtx"
-import { createPost, deletePost, getFeed, postLike, postUnlike } from "../Services/post.api"
+import { createPost, deletePost, getFeed, getUserPosts, postLike, postUnlike } from "../Services/post.api"
 
 export const usePost = () => {
     const { loading, setLoading, posts, setPosts, feed, setFeed } = useContext(PostContext)
@@ -10,6 +10,18 @@ export const usePost = () => {
         try {
             const response = await getFeed()
             setFeed(response.posts.reverse())
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    const getUserPostsHandler = async () => {
+        setLoading(true)
+        try {
+            const response = await getUserPosts()
+            setPosts(response.posts.reverse())
         } catch (error) {
             console.log(error)
         } finally {
@@ -64,7 +76,9 @@ export const usePost = () => {
     return {
         loading,
         feed,
+        posts,
         getFeedPosts,
+        getUserPostsHandler,
         createPostHandler,
         deletePostHandler,
         postLikeHandler,

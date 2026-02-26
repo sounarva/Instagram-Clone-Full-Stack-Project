@@ -37,20 +37,6 @@ const PostCard = ({ post, user, postLikeHandler, postUnlikeHandler, deletePostHa
         }
     }
 
-    // if (error) {
-    //     toast.error(error.message, {
-    //         position: "top-left",
-    //         autoClose: 2000,
-    //         hideProgressBar: false,
-    //         closeOnClick: false,
-    //         pauseOnHover: true,
-    //         draggable: true,
-    //         progress: undefined,
-    //         theme: "dark",
-    //         transition: Bounce,
-    //     });
-    // }
-
     return (
         <div className="post-card">
             {/* Header section */}

@@ -14,6 +14,15 @@ export const getFeed = async () => {
     }
 }
 
+export const getUserPosts = async () => {
+    try {
+        const response = await api.get("/api/posts")
+        return response.data
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 export const postLike = async (postId) => {
     try {
         await api.post(`/api/posts/like/${postId}`)

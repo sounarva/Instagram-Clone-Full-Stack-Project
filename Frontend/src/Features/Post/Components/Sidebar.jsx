@@ -61,6 +61,12 @@ const Sidebar = () => {
                             if (item.label === 'Create') {
                                 setIsCreatePostOpen(true);
                             }
+                            else if (item.label === 'Home') {
+                                navigate('/')
+                            }
+                            else if (item.label === 'Profile') {
+                                navigate('/profile')
+                            }
                         }}
                     >
                         <div className="icon-wrapper">
