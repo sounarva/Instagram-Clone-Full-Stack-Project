@@ -2,18 +2,7 @@
 
 ![Banner](https://images.unsplash.com/photo-1596526131090-bcbe09e432d3?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
 
-A modern, high-performance Instagram clone built with the **MERN** stack (MongoDB, Express, React, Node.js) and styled with **SCSS** for a premium, dark-themed user experience. This project implements core social media features including real-time authentication, post-creation, and a fully responsive grid-based profile.
-
----
-
-## 📖 About the Project
-This is a **personal practice project** developed to master the complexities of full-stack development. My objective was to replicate the core functional and aesthetic experience of a world-class social media platform while focusing on:
-*   **Scalable Backend Architecture:** Leveraging Node.js and MongoDB with industry-standard patterns.
-*   **High-Performance UI:** Building a fluid, dark-themed interface with React and SCSS.
-*   **Modern Optimization:** Implementing advanced image processing pipelines (ImageKit) and secure session management.
-
-> [!NOTE]
-> This project is a key part of my professional development, serving as a comprehensive demonstration of my technical growth and attention to fine UI/UX details.
+A modern, high-performance Instagram clone built with the **MERN** stack (MongoDB, Express, React, Node.js) and styled with **SCSS** for a premium, dark-themed user experience.
 
 ---
 
@@ -33,6 +22,17 @@ This is a **personal practice project** developed to master the complexities of 
 ![JWT](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=json-web-tokens&logoColor=white)
 ![Multer](https://img.shields.io/badge/Multer-FF6C37?style=for-the-badge&logo=multer&logoColor=white)
 ![ImageKit](https://img.shields.io/badge/ImageKit-0170F0?style=for-the-badge&logo=icloud&logoColor=white)
+
+---
+
+## 📖 About the Project
+This is a **personal practice project** developed to master the complexities of full-stack development. My objective was to replicate the core functional and aesthetic experience of a world-class social media platform while focusing on:
+*   **Scalable Backend Architecture:** Leveraging Node.js and MongoDB with industry-standard patterns.
+*   **High-Performance UI:** Building a fluid, dark-themed interface with React and SCSS.
+*   **Modern Optimization:** Implementing advanced image processing pipelines (ImageKit) and secure session management.
+
+> [!NOTE]
+> This project is a key part of my professional development, serving as a comprehensive demonstration of my technical growth and attention to fine UI/UX details.
 
 ---
 
