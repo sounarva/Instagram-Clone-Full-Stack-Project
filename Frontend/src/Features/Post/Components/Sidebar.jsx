@@ -1,10 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { PostContext } from '../contexts/PostCtx';
+import { AuthContext } from '../../Auth/Contexts/AuthCtx';
 
 const Sidebar = () => {
     const navigate = useNavigate();
     const { setIsCreatePostOpen } = useContext(PostContext);
+    const { user } = useContext(AuthContext);
 
     const menuItems = [
         {
@@ -39,7 +41,7 @@ const Sidebar = () => {
             label: 'Create'
         },
         {
-            icon: <div className="profile-mini-img"><img src="https://imgs.search.brave.com/gM0DGt0wClo49xa3sWIKsCDME15MErrjPVArXfZ815U/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9zdGF0/aWMudmVjdGVlenku/Y29tL3N5c3RlbS9y/ZXNvdXJjZXMvdGh1/bWJuYWlscy8wMDkv/MzU0Lzg1Mi9zbWFs/bC9tYWxlLXBvcnRy/YWl0LXBlb3BsZS1w/cm9maWxlLXBlcmZl/Y3QtZm9yLXNvY2lh/bC1tZWRpYS1hbmQt/YnVzaW5lc3MtcHJl/c2VudGF0aW9ucy11/c2VyLWludGVyZmFj/ZS11eC1ncmFwaGlj/LWFuZC13ZWItZGVz/aWduLWFwcGxpY2F0/aW9ucy1hbmQtaW50/ZXJmYWNlcy1pbGx1/c3RyYXRpb24tdmVj/dG9yLmpwZw" alt="Profile" /></div>,
+            icon: <div className="profile-mini-img"><img src={user.profilePic} alt="Profile" /></div>,
             label: 'Profile'
         }
     ];
