@@ -1,12 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { PostContext } from '../contexts/PostCtx';
-import { AuthContext } from '../../Auth/Contexts/AuthCtx';
+import useAuth from '../../Auth/Hooks/useAuth'
 
 const Sidebar = () => {
     const navigate = useNavigate();
     const { setIsCreatePostOpen } = useContext(PostContext);
-    const { user } = useContext(AuthContext);
+    const { user } = useAuth();
+    
 
     const menuItems = [
         {
