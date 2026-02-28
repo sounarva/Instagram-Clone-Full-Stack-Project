@@ -1,6 +1,14 @@
 const userModel = require("../models/user.model")
 const crypto = require("crypto")
 const jwt = require("jsonwebtoken")
+const ImageKit = require("@imagekit/nodejs")
+const { toFile } = require('@imagekit/nodejs')
+
+const imagekit = new ImageKit({
+    publicKey: process.env.IMAGEKIT_PUBLIC_KEY,
+    privateKey: process.env.IMAGEKIT_PRIVATE_KEY,
+    urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT
+});
 
 
 
@@ -140,6 +148,38 @@ async function getMeController(req, res) {
     }
 }
 
+async function profilePicController(req, res) {
+    const username = req.userName
+    const profilePic = req.file
+
+    if (!profilePic) {
+        return res.status(400)
+            .json({
+                success: false,
+                message: "No file uploaded"
+            })
+    }
+
+    const response = await imagekit.files.upload({
+        file: await toFile(Buffer.from(profilePic.buffer), 'file'),
+        fileName: Date.now() + "-" + profilePic.originalname,
+        folder: `InstaClone/ProfilePics/${username}`
+    });
+
+    const user = await userModel.findOneAndUpdate(
+        { username },
+        { profilePic: response.url },
+        { new: true }
+    );
+
+    return res.status(200)
+        .json({
+            success: true,
+            message: "DP updated successfully ✅",
+            user
+        })
+}
+
 async function logoutController(req, res) {
     try {
         res.clearCookie("token")
@@ -160,5 +200,6 @@ module.exports = {
     registerController,
     loginController,
     getMeController,
-    logoutController
+    logoutController,
+    profilePicController
 }

@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import { getMeApi, loginApi, logoutApi, registerApi } from "../Services/auth.api";
+import { getMeApi, loginApi, logoutApi, registerApi, profilePicApi } from "../Services/auth.api";
 
 export const AuthContext = createContext();
 
@@ -58,8 +58,22 @@ const AuthProvider = ({ children }) => {
         }
     }
 
+    const profilePic = async (imageFile) => {
+        try {
+            setLoading(true)
+            const response = await profilePicApi(imageFile)
+            console.log(response)
+            setUser(response.user)
+            return response
+        } catch (error) {
+            return error
+        } finally {
+            setLoading(false)
+        }
+    }
+
     return (
-        <AuthContext.Provider value={{ user, login, register, loading, isAuthReady, logout }}>
+        <AuthContext.Provider value={{ user, setUser, login, register, loading, isAuthReady, logout, profilePic }}>
             {children}
         </AuthContext.Provider>
     )

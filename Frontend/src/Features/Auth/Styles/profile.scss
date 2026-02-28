@@ -63,6 +63,25 @@ main {
                         color: #fff;
                     }
 
+                    .changeProfilePic {
+                        background-color: #3e17ec;
+                        border: none;
+                        outline: none;
+                        cursor: pointer;
+                        font-size: 14px;
+                        color: #f5f5f5;
+                        padding: 0.9rem;
+                        border-radius: 0.5rem;
+                        width: fit-content;
+                        transition: all 0.2s ease;
+                        font-family: 'Poppins', sans-serif;
+                        font-weight: 500;
+
+                        &:hover {
+                            background-color: #5f3cfd;
+                        }
+                    }
+
                     .bio {
                         background-color: #47464658;
                         backdrop-filter: blur(10px);

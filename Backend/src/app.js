@@ -4,10 +4,15 @@ const authRouter = require("./routes/auth.route")
 const postRouter = require('./routes/post.route')
 const userRouter = require('./routes/user.route')
 const cookieParser = require('cookie-parser')
+const cors = require('cors')
 app.use(express.json())
 const path = require('path')
 app.use(express.static('./public'))
 app.use(cookieParser())
+app.use(cors({
+    origin: "http://localhost:5173",
+    credentials: true
+}))
 
 app.use("/api/v1/auth", authRouter)
 app.use("/", postRouter)
