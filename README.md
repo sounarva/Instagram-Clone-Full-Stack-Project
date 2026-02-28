@@ -50,7 +50,8 @@ This is a **personal practice project** developed to master the complexities of 
 
 ### 👤 Profile Management
 *   **Instagram-Style Profile:** Premium dark-themed layout featuring a circular profile picture with a gradient border.
-*   **Bio** Personalized bio display and clean information.
+*   **Bio:** Personalized bio display and clean information.
+*   **Cloud DP Update:** New feature that allows users to change their profile picture with a premium upload modal featuring real-time image preview.
 *   **Responsive Gallery:** A 3-column responsive image grid with fixed aspect ratios and object-fit optimization.
 
 ### 🎨 UI/UX Highlights
@@ -68,6 +69,7 @@ To ensure lightning-fast load times without sacrificing quality:
 *   **High-Quality Storage:** Original images are stored in high resolution on **ImageKit.io**.
 *   **Dynamic Scaling:** Images are dynamically scaled down to the required dimensions on-the-fly.
 *   **WebP Transformation:** All images are automatically converted to modern **.webp** format for superior compression and faster rendering in the browser.
+*   **Structured Organization:** Dedicated storage structure for various assets (e.g., `InstaClone/Posts/${id}` and `InstaClone/ProfilePics/${username}`).
 
 ### 🔗 Scalable Relationships (Edge Collection Concept)
 *   **Future-Ready Architecture:** Implemented the **Edge Collection** pattern for managing followers and following.
@@ -143,13 +145,14 @@ Frontend/
 *   Like/Unlike Interaction
 *   Premium Dark Theme
 *   Image Optimization Pipeline (WebP + Scaling)
+*   Cloud Profile Picture Update: Users can now update their DP with real-time preview and secure cloud storage.
 *   Modular Feature-based Architecture
 
 ### 🚀 Future Enhancements
 *   **Follow/Unfollow System:** Full implementation of user social graph using existing edge models.
 *   **Direct Messaging:** Real-time chat functionality using WebSockets.
 *   **Explore Page:** Algorithmic post discovery.
-*   **Profile Editing:** Allow users to update their profile picture and bio directly.
+*   **Bio Editing:** Allow users to update their bio directly.
 *   **Comments System:** Enable interactions through post comments.
 
 ---
